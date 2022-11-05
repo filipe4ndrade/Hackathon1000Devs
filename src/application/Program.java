@@ -9,9 +9,12 @@ import org.jsoup.select.Elements;
 
 public class Program {
 
+	public static final String ANSI_RESET = "\u001B[0m";
+	public static final String ANSI_YELLOW = "\u001B[33m";
+	
 	public static void main(String[] args) {
 
-		System.out.println("=====Vagas Devs Junior no Catho=====");
+		System.out.println(ANSI_YELLOW+"=====Vagas Devs Junior no Catho====="+ANSI_RESET);
 
 		for (int j = 0; j < 10; j++) {
 			try {
@@ -26,20 +29,20 @@ public class Program {
 
 					Element info = informacoes.get(i);
 
-					System.out.print("\nPublicacao " + (i + j) + "#:\n");
+					System.out.print(ANSI_YELLOW+"\nPUBLICACAO " + (i + j) + "#:\n"+ANSI_RESET);
 					String trabalho = info.getElementsByTag("a").text();
-					System.out.println("Trabalho: " + trabalho);
+					System.out.println(ANSI_YELLOW+"Trabalho: "+ANSI_RESET + trabalho);
 					String empresa = info.getElementsByTag("p").text();
 					if (empresa.length() - 1 == empresa.lastIndexOf("?")) {
 						// Retirar o termo "Por que?"
-						System.out.println("Empresa: " + empresa.substring(0, empresa.indexOf("P")));
+						System.out.println(ANSI_YELLOW+"Empresa: " +ANSI_RESET+empresa.substring(0, empresa.indexOf("P")));
 					} else {
-						System.out.println("Empresa: " + empresa);
+						System.out.println(ANSI_YELLOW+"Empresa: " +ANSI_RESET+ empresa);
 					}
 					String salario = info.getElementsByClass("sc-esjQYD kYLuC").text();
-					System.out.println("Salario: " + salario);
+					System.out.println(ANSI_YELLOW+"Salario: "+ANSI_RESET + salario);
 					String vagas = info.getElementsByTag("strong").text();
-					System.out.println("Quantidade de Vagas: " + vagas.substring(0, vagas.indexOf(":")));
+					System.out.println(ANSI_YELLOW+"Quantidade de Vagas: "+ANSI_RESET + vagas.substring(0, vagas.indexOf(":")));
 
 				}
 				j /= 20;
