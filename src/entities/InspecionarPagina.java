@@ -24,20 +24,27 @@ public class InspecionarPagina {
 		System.out.println("2 - Pleno");
 		System.out.println("3 - Senior");
 		System.out.print("Digite aqui: ");
-		int indiceMenu = input.nextInt();
+		do {
+			try {
+				int indiceMenu = input.nextInt();
 
-		System.out.println();
+				System.out.println();
 
-		switch (indiceMenu) {
-			case 1:
-				return "Junior";
-			case 2:
-				return "Pleno";
-			case 3:
-				return "Senior";
-			default:
-				return "";
-		}
+				switch (indiceMenu) {
+				case 1:
+					return "Junior";
+				case 2:
+					return "Pleno";
+				case 3:
+					return "Senior";
+				default:
+					return "";
+				}
+			} catch (InputMismatchException e) {
+				System.out.println("Valor precisa ser inteiro!");
+				input.nextLine();
+			}
+		} while (true);
 	}
 
 	public String obterDiretorioUsuario() {
