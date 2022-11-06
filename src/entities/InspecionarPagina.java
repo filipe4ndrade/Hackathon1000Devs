@@ -3,7 +3,6 @@ package entities;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -15,10 +14,7 @@ public class InspecionarPagina {
 
 	private static final int totalDataColetada = 40;
 
-	public InspecionarPagina() {
-
-	}
-	
+	public InspecionarPagina() {}
 
 	public String obterMenuBusca() {
 		Scanner input = new Scanner(System.in);
@@ -33,18 +29,15 @@ public class InspecionarPagina {
 		System.out.println();
 
 		switch (indiceMenu) {
-
-		case 1:
-			return "Junior";
-		case 2:
-			return "Pleno";
-		case 3:
-			return "Senior";
-		default:
-			return "";
-
+			case 1:
+				return "Junior";
+			case 2:
+				return "Pleno";
+			case 3:
+				return "Senior";
+			default:
+				return "";
 		}
-
 	}
 
 	public String obterDiretorioUsuario() {
@@ -53,15 +46,14 @@ public class InspecionarPagina {
 		System.out.print("Insira o diretorio em que deseja salvar o arquivo .CSV (Ex. D:\\\\Pasta\\\\) - ");
 		String diretorioUsuario = input.nextLine();
 
-		input.close();
 		return diretorioUsuario;
 	}
 
 	public static Document obterCodigoHTML(int numeroPagina, String busca) throws IOException {
 		numeroPagina++;
 
-		return Jsoup.connect("https://www.catho.com.br/vagas/desenvolvedor-" + busca + "/?q=Desenvolvedor%20" + busca
-				+ "&page=" + numeroPagina).get();
+		return Jsoup.connect("https://www.catho.com.br/vagas/desenvolvedor-" + busca + "/?q=Desenvolvedor%20" 
+		                                                                     + busca + "&page=" + numeroPagina).get();
 	}
 
 	public static Elements obterDataNoCatho(Document codigoHTML) {
@@ -137,10 +129,14 @@ public class InspecionarPagina {
 		return URL;
 	}
 
-	public void criarArquivo(String busca, String diretorioUsuario) throws IOException {
+	public String criarArquivo() throws IOException {
+		String busca = obterMenuBusca();
+		String diretorioUsuario = obterDiretorioUsuario();
 		int indiceVaga = 1;
 
-		FileWriter montarArquivo = new FileWriter(diretorioUsuario + "Vagas" + busca + ".csv", true);
+		diretorioUsuario += ("Vagas" + busca + ".csv");
+
+		FileWriter montarArquivo = new FileWriter(diretorioUsuario, true);
 		montarArquivo.write("Vaga,Cargo,Empresa,Salario,Local,Quantidade de Vagas,Link de Acesso\n");
 
 		for (int numeroPagina = 0; numeroPagina < totalPaginas; numeroPagina++) {
@@ -160,8 +156,7 @@ public class InspecionarPagina {
 				vagaSemSalario = testarSeVagaTemSalario(dataFiltrada);
 				vagaSemLocal = testarSeVagaTemLocal(dataFiltrada);
 
-				if (vagaSemSalario || vagaSemLocal)
-					continue;
+				if (vagaSemSalario || vagaSemLocal) continue;
 
 				cargo = obterCargo(dataFiltrada);
 				empresa = obterEmpresa(dataFiltrada);
@@ -170,11 +165,14 @@ public class InspecionarPagina {
 				quantidadeVagas = obterQuantidadeVagas(dataFiltrada);
 				URL = obterURL(dataFiltrada);
 
-				montarArquivo.write((indiceVaga++) + "," + cargo + "," + empresa + "," + salario + "," + local + ","
-						+ quantidadeVagas + "," + URL + "\n");
+				montarArquivo.write( (indiceVaga++) + "," + cargo + "," + empresa + "," + salario + "," 
+				                                    + local + "," + quantidadeVagas + "," + URL + "\n");
 			}
 		}
+
 		montarArquivo.close();
+
+		return diretorioUsuario;
 	}
 
 }
