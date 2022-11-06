@@ -1,4 +1,4 @@
-# Plataforma que Busca Vagas para Desenvolvedores na Internet e Disponibiliza para os Usuários
+# Plataforma que Busca Vagas para Desenvolvedores na Internet e Disponibiliza para os Usuários 💻
 
 O primeiro Hackathon da segunda turma do programa 1000Devs, trouxe o desafio de implementarmos um código em Java que conseguisse trazer informações objetivas das vagas de emprego de desenvolvedor. Nosso código tem como saída uma planilha em CSV com as principais informações das vagas no diretório que o usuário inserir, além de dar a opção para o usuário receber por email.
 
