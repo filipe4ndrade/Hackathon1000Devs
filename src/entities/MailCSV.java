@@ -24,7 +24,7 @@ public class MailCSV {
 	public void enviarEmail(String destinatario, String diretorioUsuario) {
 		Properties propiedades = System.getProperties();
 
-		String de = "xxxxxx@gmail.com";
+		String de = "ismaelcardosodcjr@gmail.com";
 		String para = destinatario;
 
 		// Definindo propiedades:
@@ -36,7 +36,7 @@ public class MailCSV {
 		Session sessao = Session.getInstance(propiedades, new Authenticator() {
 
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(de, "yyyyyy");
+				return new PasswordAuthentication(de, "etiuiuachpushpax");
 			}
 		} );
 
@@ -57,7 +57,7 @@ public class MailCSV {
 
 			// Construindo a parte com anexo do e-mail:
 			anexoMensagem.setDataHandler(new DataHandler(fonte));
-			anexoMensagem.setFileName(arquivo);
+			anexoMensagem.setFileName(arquivo.substring(arquivo.indexOf("V")));
 
 			// Juntando as 2 partes:
 			multi.addBodyPart(textoMensagem);
