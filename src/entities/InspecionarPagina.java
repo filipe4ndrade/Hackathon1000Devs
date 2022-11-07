@@ -1,14 +1,16 @@
 package entities;
 
-import java.io.FileWriter;
 import java.io.IOException;
+import java.util.InputMismatchException;
+
+import java.io.FileWriter;
 import java.util.Scanner;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.util.InputMismatchException;
+
 public class InspecionarPagina {
 
 	private static final int totalPaginas = 9;
@@ -24,25 +26,25 @@ public class InspecionarPagina {
 		System.out.println("1 - Junior");
 		System.out.println("2 - Pleno");
 		System.out.println("3 - Senior");
-		System.out.print("Digite aqui: ");
 		do {
 			try {
+				System.out.print("Digite aqui: ");
 				int indiceMenu = input.nextInt();
 
 				System.out.println();
 
 				switch (indiceMenu) {
-				case 1:
-					return "Junior";
-				case 2:
-					return "Pleno";
-				case 3:
-					return "Senior";
-				default:
-					return "";
+					case 1:
+						return "Junior";
+					case 2:
+						return "Pleno";
+					case 3:
+						return "Senior";
+					default:
+						return "";
 				}
 			} catch (InputMismatchException e) {
-				System.out.println("Valor precisa ser inteiro!");
+				System.out.println("Valor precisa ser inteiro! \n");
 				input.nextLine();
 			}
 		} while (true);
@@ -146,6 +148,8 @@ public class InspecionarPagina {
 
 		FileWriter montarArquivo = new FileWriter(diretorioUsuario, true);
 		montarArquivo.write("Vaga,Cargo,Empresa,Salario,Local,Quantidade de Vagas,Link de Acesso\n");
+
+		System.out.println("Processando... \n");
 
 		for (int numeroPagina = 0; numeroPagina < totalPaginas; numeroPagina++) {
 			Document codigoHTML;
