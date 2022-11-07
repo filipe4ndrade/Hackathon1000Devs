@@ -34,14 +34,14 @@ public class InspecionarPagina {
 				System.out.println();
 
 				switch (indiceMenu) {
-				case 1:
-					return "Junior";
-				case 2:
-					return "Pleno";
-				case 3:
-					return "Senior";
-				default:
-					return "";
+					case 1:
+						return "Junior";
+					case 2:
+						return "Pleno";
+					case 3:
+						return "Senior";
+					default:
+						return "";
 				}
 			} catch (InputMismatchException e) {
 				System.out.println("Valor precisa ser inteiro! \n");
