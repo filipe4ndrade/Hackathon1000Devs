@@ -10,16 +10,15 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-
 public class InspecionarPagina {
 
 	private static final int totalPaginas = 9;
 
-	private static final int totalDataColetada = 40;
+	private static final int vagasPorPagina = 40;
 
 	public InspecionarPagina() {}
 
-	public String obterMenuBusca() {
+	public String obterSenioridadeEscolhida() {
 		Scanner input = new Scanner(System.in);
 
 		System.out.println("Quais vagas de desenvolvimento queres buscar? ");
@@ -70,7 +69,7 @@ public class InspecionarPagina {
 		return codigoHTML.getElementById("search-result").getElementsByTag("article");
 	}
 
-	public static boolean testarSeVagaTemSalario(Element data) {
+	public static boolean testarSeVagaNAOTemSalario(Element data) {
 		String salario = obterSalario(data);
 
 		if (salario.equals(""))
@@ -79,7 +78,7 @@ public class InspecionarPagina {
 			return false;
 	}
 
-	public static boolean testarSeVagaTemLocal(Element data) {
+	public static boolean testarSeVagaNAOTemLocal(Element data) {
 		String local = data.getElementsByClass("sc-iyvyFf kIwChr").text();
 
 		if (local.equals(""))
@@ -140,11 +139,12 @@ public class InspecionarPagina {
 	}
 
 	public String criarArquivo() throws IOException {
-		String busca = obterMenuBusca();
-		String diretorioUsuario = obterDiretorioUsuario();
-		int indiceVaga = 1;
+		int numeroVaga = 1;
 
-		diretorioUsuario += ("Vagas" + busca + ".csv");
+		String senioridade = obterSenioridadeEscolhida();
+		String diretorioUsuario = obterDiretorioUsuario();
+
+		diretorioUsuario += ("Vagas" + senioridade + ".csv");
 
 		FileWriter montarArquivo = new FileWriter(diretorioUsuario, true);
 		montarArquivo.write("Vaga,Cargo,Empresa,Salario,Local,Quantidade de Vagas,Link de Acesso\n");
@@ -153,31 +153,31 @@ public class InspecionarPagina {
 
 		for (int numeroPagina = 0; numeroPagina < totalPaginas; numeroPagina++) {
 			Document codigoHTML;
-			Elements dataColetada;
-			Element dataFiltrada;
+			Elements informacoesColetadas;
+			Element data;
 
-			codigoHTML = obterCodigoHTML(numeroPagina, busca);
-			dataColetada = obterDataNoCatho(codigoHTML);
+			codigoHTML = obterCodigoHTML(numeroPagina, senioridade);
+			informacoesColetadas = obterDataNoCatho(codigoHTML);
 
-			for (int indice = 0; indice < totalDataColetada; indice += 2) {
+			for (int indice = 0; indice < vagasPorPagina; indice += 2) {
 				String cargo, empresa, salario, local, quantidadeVagas, URL;
 				boolean vagaSemSalario, vagaSemLocal;
 
-				dataFiltrada = dataColetada.get(indice);
+				data = informacoesColetadas.get(indice);
 
-				vagaSemSalario = testarSeVagaTemSalario(dataFiltrada);
-				vagaSemLocal = testarSeVagaTemLocal(dataFiltrada);
+				vagaSemSalario = testarSeVagaNAOTemSalario(data);
+				vagaSemLocal = testarSeVagaNAOTemLocal(data);
 
 				if (vagaSemSalario || vagaSemLocal) continue;
 
-				cargo = obterCargo(dataFiltrada);
-				empresa = obterEmpresa(dataFiltrada);
-				salario = obterSalario(dataFiltrada);
-				local = obterLocal(dataFiltrada);
-				quantidadeVagas = obterQuantidadeVagas(dataFiltrada);
-				URL = obterURL(dataFiltrada);
+				cargo = obterCargo(data);
+				empresa = obterEmpresa(data);
+				salario = obterSalario(data);
+				local = obterLocal(data);
+				quantidadeVagas = obterQuantidadeVagas(data);
+				URL = obterURL(data);
 
-				montarArquivo.write( (indiceVaga++) + "," + cargo + "," + empresa + "," + salario + "," 
+				montarArquivo.write((numeroVaga++) + "," + cargo + "," + empresa + "," + salario + "," 
 				                                    + local + "," + quantidadeVagas + "," + URL + "\n");
 			}
 		}
@@ -186,5 +186,4 @@ public class InspecionarPagina {
 
 		return diretorioUsuario;
 	}
-
 }
