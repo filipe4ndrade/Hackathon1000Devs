@@ -57,7 +57,7 @@ public class MailCSV {
 
 			// Construindo a parte com anexo do e-mail:
 			anexoMensagem.setDataHandler(new DataHandler(fonte));
-			anexoMensagem.setFileName(arquivo);
+			anexoMensagem.setFileName(arquivo.substring(arquivo.indexOf("V")));
 
 			// Juntando as 2 partes:
 			multi.addBodyPart(textoMensagem);

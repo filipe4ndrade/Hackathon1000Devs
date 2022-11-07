@@ -1,17 +1,19 @@
 package application;
 
 import java.io.IOException;
+
 import java.util.Scanner;
 import entities.InspecionarPagina;
 import entities.MailCSV;
 
 public class Program {
 
-	public static void enviarGmail(String diretorioUsuario) {
+	public static void opcaoCompartilharArquivo(String diretorioUsuario) {
 		Scanner input = new Scanner(System.in);
-		MailCSV mCsv = new MailCSV();
-		String destinatario;
+		MailCSV mailCSV = new MailCSV();
+
 		char resposta;
+		String destinatario;
 
 		while (true) {
 			System.out.print("Deseja compartilhar este arquivo por Gmail? (S/N) - ");
@@ -20,22 +22,24 @@ public class Program {
 			input.nextLine(); // <-- limpa o buffer
 
 			if (resposta == 'S' || resposta == 's') {
-				System.out.print("Insira seu gmail para o envio do arquivo - ");
-				destinatario = input.nextLine();
+				destinatario = pedirEmailUsuario();
 
-				mCsv.enviarEmail(destinatario, diretorioUsuario);
+				mailCSV.enviarEmail(destinatario, diretorioUsuario);
 				System.out.println("E-mail enviado com sucesso!");
 
 				break;
-
-			} else if (resposta == 'N' || resposta == 'n')
-				break;
-			else {
+			} else if (resposta == 'N' || resposta == 'n') break;
+			  else {
 				System.out.println("Resposta inválida! Tente outra vez. \n");
 			}
 		}
+	}
 
-		input.close();
+	public static String pedirEmailUsuario() {
+		Scanner input = new Scanner(System.in);
+
+		System.out.print("Insira seu gmail para o envio do arquivo - ");
+		return input.nextLine();
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -45,7 +49,7 @@ public class Program {
 		String diretorioUsuario = inspecao.criarArquivo();
 		System.out.println("Arquivo .CSV gerado com sucesso! \n");
 
-		enviarGmail(diretorioUsuario);
+		opcaoCompartilharArquivo(diretorioUsuario);
 
 		input.close();
 	}
