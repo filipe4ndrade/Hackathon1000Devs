@@ -64,6 +64,7 @@ public class MailCSV {
 			multi.addBodyPart(anexoMensagem);
 			mensagem.setContent(multi);
 
+			System.out.println("Enviando... \n");
 			Transport.send(mensagem);
 		} catch (MessagingException e) {
 			e.printStackTrace();
