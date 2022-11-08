@@ -16,7 +16,7 @@ public class Program {
 		String destinatario;
 
 		while (true) {
-			System.out.print("Deseja compartilhar este arquivo por Gmail? (S/N) - ");
+			System.out.print("Deseja compartilhar esse arquivo por Gmail? (S/N) - ");
 			resposta = input.next().charAt(0);
 
 			input.nextLine(); // <-- limpa o buffer
@@ -38,7 +38,7 @@ public class Program {
 	public static String pedirEmailUsuario() {
 		Scanner input = new Scanner(System.in);
 
-		System.out.print("Insira seu gmail para o envio do arquivo - ");
+		System.out.print("Insira o Gmail para envio do arquivo - ");
 		return input.nextLine();
 	}
 
