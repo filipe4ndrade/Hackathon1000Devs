@@ -133,7 +133,6 @@ public class InspecionarPagina {
 		Element link = data.select("a").first();
 
 		String URL = link.attr("href");
-		URL = URL.substring(0, URL.indexOf("?"));
 
 		return URL;
 	}
