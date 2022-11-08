@@ -21,19 +21,19 @@ public class MailCSV {
 
 	public MailCSV() {}
 
-	public void enviarEmail(String destinatario, String diretorioUsuario) {
-		Properties propiedades = System.getProperties();
+	public static void enviarEmail(String destinatario, String diretorioUsuario) {
+		Properties propriedades = System.getProperties();
 
 		String de = "xxxxxx@gmail.com";
 		String para = destinatario;
 
-		// Definindo propiedades:
-		propiedades.put("mail.smtp.host", "smtp.gmail.com");
-		propiedades.put("mail.smtp.port", "465");
-		propiedades.put("mail.smtp.ssl.enable", "true");
-		propiedades.put("mail.smtp.auth", "true");
+		// Definindo propriedades:
+		propriedades.put("mail.smtp.host", "smtp.gmail.com");
+		propriedades.put("mail.smtp.port", "465");
+		propriedades.put("mail.smtp.ssl.enable", "true");
+		propriedades.put("mail.smtp.auth", "true");
 
-		Session sessao = Session.getInstance(propiedades, new Authenticator() {
+		Session sessao = Session.getInstance(propriedades, new Authenticator() {
 
 			protected PasswordAuthentication getPasswordAuthentication() {
 				return new PasswordAuthentication(de, "yyyyyy");
@@ -45,7 +45,7 @@ public class MailCSV {
 			Multipart multi = new MimeMultipart();
 			BodyPart textoMensagem = new MimeBodyPart();
 			BodyPart anexoMensagem = new MimeBodyPart();
-
+			
 			String arquivo = diretorioUsuario;
 			DataSource fonte = new FileDataSource(arquivo);
 
