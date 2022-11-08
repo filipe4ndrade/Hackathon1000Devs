@@ -18,19 +18,20 @@ public class InspecionarPagina {
 
 	public InspecionarPagina() {}
 
-	public String obterSenioridadeEscolhida() {
+	public static String obterSenioridadeEscolhida() {
 		Scanner input = new Scanner(System.in);
 
 		System.out.println("Quais vagas de desenvolvimento queres buscar? ");
 		System.out.println("1 - Junior");
 		System.out.println("2 - Pleno");
 		System.out.println("3 - Senior");
+
 		do {
 			try {
 				System.out.print("Digite aqui: ");
 				int indiceMenu = input.nextInt();
 
-				System.out.println();
+				System.out.print("\n");
 
 				switch (indiceMenu) {
 					case 1:
@@ -44,25 +45,24 @@ public class InspecionarPagina {
 				}
 			} catch (InputMismatchException e) {
 				System.out.println("Valor precisa ser inteiro! \n");
+
 				input.nextLine();
 			}
 		} while (true);
 	}
 
-	public String obterDiretorioUsuario() {
+	public static String obterDiretorioUsuario() {
 		Scanner input = new Scanner(System.in);
 
 		System.out.print("Insira o diretorio em que deseja salvar o arquivo .CSV (Ex. D:\\\\Pasta\\\\) - ");
-		String diretorioUsuario = input.nextLine();
-
-		return diretorioUsuario;
+		return input.nextLine();
 	}
 
 	public static Document obterCodigoHTML(int numeroPagina, String busca) throws IOException {
 		numeroPagina++;
 
-		return Jsoup.connect("https://www.catho.com.br/vagas/desenvolvedor-" + busca + "/?q=Desenvolvedor%20" 
-		                                                                     + busca + "&page=" + numeroPagina).get();
+		return Jsoup.connect("https://www.catho.com.br/vagas/desenvolvedor-" + busca + "/?q=Desenvolvedor%20"
+				                                                     + busca + "&page=" + numeroPagina).get();
 	}
 
 	public static Elements obterDataNoCatho(Document codigoHTML) {
@@ -72,19 +72,15 @@ public class InspecionarPagina {
 	public static boolean testarSeVagaNAOTemSalario(Element data) {
 		String salario = obterSalario(data);
 
-		if (salario.equals(""))
-			return true;
-		else
-			return false;
+		if (salario.equals("")) return true;
+		else return false;
 	}
 
 	public static boolean testarSeVagaNAOTemLocal(Element data) {
 		String local = data.getElementsByClass("sc-iyvyFf kIwChr").text();
 
-		if (local.equals(""))
-			return true;
-		else
-			return false;
+		if (local.equals("")) return true;
+		else return false;
 	}
 
 	public static String obterCargo(Element data) {
@@ -131,24 +127,22 @@ public class InspecionarPagina {
 
 	public static String obterURL(Element data) {
 		Element link = data.select("a").first();
-
 		String URL = link.attr("href");
 
 		return URL;
 	}
 
-	public String criarArquivo() throws IOException {
+	public static String criarArquivo() throws IOException {
 		int numeroVaga = 1;
 
 		String senioridade = obterSenioridadeEscolhida();
 		String diretorioUsuario = obterDiretorioUsuario();
 
 		diretorioUsuario += ("Vagas" + senioridade + ".csv");
-
 		FileWriter montarArquivo = new FileWriter(diretorioUsuario, true);
 		montarArquivo.write("Vaga,Cargo,Empresa,Salario,Local,Quantidade de Vagas,Link de Acesso\n");
 
-		System.out.println("Processando... \n");
+		System.out.println("Gerando... \n");
 
 		for (int numeroPagina = 0; numeroPagina < totalPaginas; numeroPagina++) {
 			Document codigoHTML;
@@ -176,8 +170,8 @@ public class InspecionarPagina {
 				quantidadeVagas = obterQuantidadeVagas(data);
 				URL = obterURL(data);
 
-				montarArquivo.write((numeroVaga++) + "," + cargo + "," + empresa + "," + salario + "," 
-				                                    + local + "," + quantidadeVagas + "," + URL + "\n");
+				montarArquivo.write((numeroVaga++) + "," + cargo + "," + empresa + "," + salario + ","
+						                   + local + "," + quantidadeVagas + "," + URL + "\n");
 			}
 		}
 
