@@ -10,7 +10,6 @@ public class Program {
 
 	public static void opcaoCompartilharArquivo(String diretorioUsuario) {
 		Scanner input = new Scanner(System.in);
-		MailCSV mailCSV = new MailCSV();
 
 		char resposta;
 		String destinatario;
@@ -24,7 +23,7 @@ public class Program {
 			if (resposta == 'S' || resposta == 's') {
 				destinatario = pedirEmailUsuario();
 
-				mailCSV.enviarEmail(destinatario, diretorioUsuario);
+				MailCSV.enviarEmail(destinatario, diretorioUsuario);
 				System.out.println("E-mail enviado com sucesso!");
 
 				break;
@@ -33,6 +32,8 @@ public class Program {
 				System.out.println("Resposta inválida! Tente outra vez. \n");
 			}
 		}
+
+		input.close();
 	}
 
 	public static String pedirEmailUsuario() {
@@ -43,14 +44,9 @@ public class Program {
 	}
 
 	public static void main(String[] args) throws IOException {
-		Scanner input = new Scanner(System.in);
-		InspecionarPagina inspecao = new InspecionarPagina();
-
-		String diretorioUsuario = inspecao.criarArquivo();
+		String diretorioUsuario = InspecionarPagina.criarArquivo();
 		System.out.println("Arquivo .CSV gerado com sucesso! \n");
 
 		opcaoCompartilharArquivo(diretorioUsuario);
-
-		input.close();
 	}
 }
